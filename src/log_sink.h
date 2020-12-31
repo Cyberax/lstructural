@@ -56,6 +56,9 @@ namespace llog {
 	class mem_sink_t : public locked_sink_t {
 		std::vector<char> content_;
 	public:
+		mem_sink_t() = default;
+		explicit mem_sink_t(size_t cap) {content_.reserve(cap);}
+
 		void write(const char *data, size_t sz) override {
 			check_locked();
 			content_.insert(content_.end(), data, data + sz);
@@ -70,4 +73,5 @@ namespace llog {
 	};
 
 	extern std::shared_ptr<sink_t> cout_sink;
+	extern std::shared_ptr<sink_t> cerr_sink;
 }

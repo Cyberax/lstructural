@@ -51,15 +51,22 @@ namespace llog {
 
 	class logger_t
 	{
-		logger_cfg_t cfg_;
+		const logger_cfg_t &cfg_;
 		std::vector<stored_attr_pair_t> attrs_;
 	public:
-		logger_t(logger_cfg_t &&cfg, attribute_pack_t &&attrs);
+		logger_t(const logger_cfg_t &cfg, attribute_pack_t &&attrs);
 
 		bool should_log(severity_t lvl) const { return lvl >= cfg_.level; };
 
-		void log(severity_t lvl, const std::string_view &msg, attribute_pack_t &&attrs);
-		void logf(severity_t lvl, const std::string_view &msg, attribute_pack_t &&attrs);
+		void log(severity_t lvl, const std::string_view &msg, attribute_pack_t &&attrs) {
+			do_log(false, lvl, msg, std::forward<attribute_pack_t>(attrs));
+		}
+		void logf(severity_t lvl, const std::string_view &msg, attribute_pack_t &&attrs) {
+			do_log(true, lvl, msg, std::forward<attribute_pack_t>(attrs));
+		}
+
+	private:
+		void do_log(bool format, severity_t lvl, const std::string_view &msg, attribute_pack_t &&attrs);
 	};
 
 //#define LOG_INFO nanolog::is_logged(nanolog::LogLevel::INFO) && NANO_LOG(nanolog::LogLevel::INFO)
