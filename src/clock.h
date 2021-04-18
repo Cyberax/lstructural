@@ -7,9 +7,9 @@
 #include <ctime>
 
 namespace llog {
-	class sink_t;
+	class sink_writer_t;
 
-	void print_timestamp(const timespec &t, sink_t &sink);
+	void print_timestamp(const timespec &t, sink_writer_t &sink);
 
 	class clock_t
 	{

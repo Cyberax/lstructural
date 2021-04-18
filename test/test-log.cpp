@@ -11,7 +11,8 @@ using namespace llog;
 
 TEST(AttrsTest, time) {
 	logger_cfg_t cfg{};
-	cfg.sink = std::make_shared<llog::mem_sink_t>(1024*1024*1024*5);
+	auto sink = std::make_shared<llog::mem_sink_t>(1024*1024*1024);
+	cfg.sink = sink;
 	logger_t tp(cfg, {});
 
 //	std::string_view v("hello");
@@ -20,15 +21,18 @@ TEST(AttrsTest, time) {
 	auto start = std::chrono::system_clock::now();
 
 	for(uint64_t f = 0; f < 5*1000*1000; ++f) {
-		tp.log(llog::severity_t::DEBUG, "hello {world} {world2}", {
-			{"world",  1},
-			{"world2", "2"},
-		});
+		tp.logm(llog::severity_t::DEBUG, "hello {world} {world2}",
+			llog::int32("world", 1),
+			llog::str("world2", "2")
+
+//			{"world",  1},
+//			{"world2", "2"},
+		);
 
 		//tp.log(llog::severity_t::DEBUG, "hello {world} {world2}", {});
 	}
 
 	auto val = std::chrono::duration_cast<std::chrono::milliseconds>(
 		(std::chrono::system_clock::now() - start)).count();
-	std::cerr << "TIME " << val << std::endl;
+	std::cerr << "TIME " << val << ", SIZE " << sink->data().size() << std::endl;
 }

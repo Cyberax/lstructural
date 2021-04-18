@@ -7,6 +7,9 @@ if (NOT CMAKE_BUILD_TYPE)
     set(CMAKE_BUILD_TYPE "Debug")
 endif()
 
+# set(CMAKE_BUILD_TYPE "Debug")
+#set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_LINKER_FLAGS_DEBUG} -fno-omit-frame-pointer -fsanitize=address")
+
 include(${CMAKE_SOURCE_DIR}/conan.cmake)
 conan_cmake_run(CONANFILE ${CMAKE_SOURCE_DIR}/conanfile.txt
         BUILD_TYPE ${CMAKE_BUILD_TYPE}

@@ -118,7 +118,7 @@ static auto localtime(time_t t, struct tm* tp) noexcept -> struct tm* {
 	return tp;
 }
 
-void llog::print_timestamp(const timespec &t, sink_t &sink) {
+void llog::print_timestamp(const timespec &t, sink_writer_t &sink) {
 	char buff[100];
 	tm gmt = {};
 	fast_gmtime(time_t(t.tv_sec), &gmt);

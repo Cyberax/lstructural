@@ -1,8 +1,6 @@
 //
 // Created by Besogonov Aleksei on 12/27/20.
 //
-
-
 #include <execinfo.h> // for backtrace
 #include <dlfcn.h>     // for dladdr
 #include <cxxabi.h>    // for __cxa_demangle
